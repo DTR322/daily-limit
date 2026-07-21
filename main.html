@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DayLimit</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Главная карточка -->
+        <div class="limit-card" id="limit-card">
+            <div class="limit-label">Можно потратить сегодня</div>
+            <div class="limit-amount" id="daily-limit">0 ₽</div>
+            <div class="limit-hint" id="limit-hint">До зарплаты 0 дней</div>
+        </div>
+
+        <!-- Прогресс -->
+        <div class="progress-card">
+            <div class="progress-header">
+                <span>Потрачено сегодня</span>
+                <span id="progress-text">0 ₽ / 0 ₽</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Метрики -->
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-value" id="days-remaining">0</div>
+                <div class="metric-label">дней до зарплаты</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value" id="free-money">0 ₽</div>
+                <div class="metric-label">свободные деньги</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value" id="savings-amount">0 ₽</div>
+                <div class="metric-label">накопления</div>
+            </div>
+        </div>
+
+        <!-- Траты -->
+        <div class="section-header">
+            <h3>Сегодня</h3>
+            <button class="text-btn" id="clear-btn">Очистить</button>
+        </div>
+
+        <div class="transactions" id="transactions-list">
+            <div class="empty-state">
+                <div class="empty-icon">💸</div>
+                <div class="empty-title">Пока нет трат</div>
+            </div>
+        </div>
+
+        <!-- Кнопки -->
+        <button class="btn-add" id="add-btn">+ Добавить трату</button>
+        <button class="btn-settings" onclick="window.location.href='index.html'">
+            Изменить бюджет
+        </button>
+    </div>
+
+    <!-- Модалка добавления траты -->
+    <div class="modal hidden" id="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-sheet">
+            <div class="modal-handle"></div>
+            <h3 class="modal-title">Новая трата</h3>
+
+            <div class="categories">
+                <button class="cat-btn" data-name="☕ Кофе" data-amount="300">
+                    <span class="cat-icon">☕</span>
+                    <span class="cat-name">Кофе</span>
+                    <span class="cat-amount">300 ₽</span>
+                </button>
+                <button class="cat-btn" data-name="🍔 Обед" data-amount="600">
+                    <span class="cat-icon">🍔</span>
+                    <span class="cat-name">Обед</span>
+                    <span class="cat-amount">600 ₽</span>
+                </button>
+                <button class="cat-btn" data-name="🚕 Такси" data-amount="400">
+                    <span class="cat-icon">🚕</span>
+                    <span class="cat-name">Такси</span>
+                    <span class="cat-amount">400 ₽</span>
+                </button>
+                <button class="cat-btn" data-name="🎬 Кино" data-amount="500">
+                    <span class="cat-icon">🎬</span>
+                    <span class="cat-name">Кино</span>
+                    <span class="cat-amount">500 ₽</span>
+                </button>
+                <button class="cat-btn" data-name="🛍 Покупки" data-amount="1500">
+                    <span class="cat-icon">🛍</span>
+                    <span class="cat-name">Покупки</span>
+                    <span class="cat-amount">1500 ₽</span>
+                </button>
+                <button class="cat-btn" data-name="🍷 Бар" data-amount="2000">
+                    <span class="cat-icon">🍷</span>
+                    <span class="cat-name">Бар</span>
+                    <span class="cat-amount">2000 ₽</span>
+                </button>
+            </div>
+
+            <div class="custom-amount">
+                <label>Своя сумма</label>
+                <div class="input-group">
+                    <input type="number" id="custom-amount" placeholder="0">
+                    <span class="suffix">₽</span>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-secondary" id="cancel-btn">Отмена</button>
+                <button class="btn-primary" id="save-btn">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+<!-- Модалка превышения лимита -->
+<div class="modal hidden" id="overspend-modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-sheet overspend-sheet">
+        <div class="modal-handle"></div>
+        <div class="overspend-icon">⚠️</div>
+        <h3 class="overspend-title">Превышение лимита!</h3>
+        <p class="overspend-text">
+            Ты потратил больше дневного лимита на <strong id="overspend-amount">0 ₽</strong>
+        </p>
+
+        <div class="overspend-options">
+            <button class="option-btn" id="option-limit">
+                <div class="option-icon">📉</div>
+                <div class="option-content">
+                    <div class="option-title">Уменьшить лимит на будущие дни</div>
+                    <div class="option-desc">Перерасход спишется со свободных денег</div>
+                </div>
+            </button>
+            <button class="option-btn" id="option-savings">
+                <div class="option-icon">💰</div>
+                <div class="option-content">
+                    <div class="option-title">Взять из накоплений</div>
+                    <div class="option-desc">Сначала накопления, потом свободные деньги, потом долг</div>
+                </div>
+            </button>
+            <button class="option-btn" id="option-debt">
+                <div class="option-icon">💳</div>
+                <div class="option-content">
+                    <div class="option-title">Создать долг</div>
+                    <div class="option-desc">Свободные деньги и накопления исчерпаны</div>
+                </div>
+            </button>
+        </div>
+    </div>
+</div>
+
+    <script src="main.js"></script>
+</body>
+</html>

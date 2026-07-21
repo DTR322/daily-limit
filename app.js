@@ -34,12 +34,12 @@ form.addEventListener('submit', (e) => {
         food: parseFloat(document.getElementById('food').value) || 0,
         transport: parseFloat(document.getElementById('transport').value) || 0,
         credits: parseFloat(document.getElementById('credits').value) || 0,
-        savings: parseFloat(document.getElementById('savings').value) || 0
+        savings: parseFloat(document.getElementById('savings').value) || 0,
+        savingsUsed: 0 // Добавляем поле
     };
 
     localStorage.setItem('daylimit-settings', JSON.stringify(settings));
-    alert('Данные сохранены!');
-    console.log('Settings:', settings);
+    window.location.href = 'main.html';
 });
 
 // Инициализация
