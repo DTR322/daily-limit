@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DayLimit — Настройка бюджета</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Настройка бюджета</h1>
+
+        <form id="budget-form">
+            <!-- Доход -->
+            <div class="form-group">
+                <label for="income">Доход в месяц (₽)</label>
+                <input type="number" id="income" placeholder="100000" required>
+            </div>
+
+            <!-- Обязательные расходы -->
+            <div class="form-group">
+                <label>Обязательные расходы (₽)</label>
+                <input type="number" id="rent" placeholder="Аренда">
+                <input type="number" id="utilities" placeholder="Коммуналка">
+                <input type="number" id="food" placeholder="Еда">
+                <input type="number" id="transport" placeholder="Транспорт">
+                <input type="number" id="credits" placeholder="Кредиты">
+            </div>
+
+            <!-- Накопления -->
+            <div class="form-group">
+                <label for="savings">Накопления: <span id="savings-value">20</span>%</label>
+                <input type="range" id="savings" min="0" max="50" value="20">
+            </div>
+
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
