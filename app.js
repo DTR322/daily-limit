@@ -12,12 +12,12 @@ function loadSettings() {
     const saved = localStorage.getItem('daylimit-settings');
     if (saved) {
         const data = JSON.parse(saved);
-        document.getElementById('income').value = data.income || '';
-        document.getElementById('rent').value = data.rent || '';
-        document.getElementById('utilities').value = data.utilities || '';
-        document.getElementById('food').value = data.food || '';
-        document.getElementById('transport').value = data.transport || '';
-        document.getElementById('credits').value = data.credits || '';
+        document.getElementById('income').value = data.income || 60000;
+        document.getElementById('rent').value = data.rent || 30000;
+        document.getElementById('utilities').value = data.utilities || 3000;
+        document.getElementById('food').value = data.food || 15000;
+        document.getElementById('transport').value = data.transport || 1500;
+        document.getElementById('credits').value = data.credits || 4000;
         document.getElementById('savings').value = data.savings || 20;
         savingsValue.textContent = data.savings || 20;
     }
@@ -28,13 +28,13 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const settings = {
-        income: parseFloat(document.getElementById('income').value) || 60000,
-        rent: parseFloat(document.getElementById('rent').value) || 30000,
-        utilities: parseFloat(document.getElementById('utilities').value) || 3000,
-        food: parseFloat(document.getElementById('food').value) || 15000,
-        transport: parseFloat(document.getElementById('transport').value) || 1500,
-        credits: parseFloat(document.getElementById('credits').value) || 4000,
-        savings: parseFloat(document.getElementById('savings').value) || 15,
+        income: parseFloat(document.getElementById('income').value) || 0,
+        rent: parseFloat(document.getElementById('rent').value) || 0,
+        utilities: parseFloat(document.getElementById('utilities').value) || 0,
+        food: parseFloat(document.getElementById('food').value) || 0,
+        transport: parseFloat(document.getElementById('transport').value) || 0,
+        credits: parseFloat(document.getElementById('credits').value) || 0,
+        savings: parseFloat(document.getElementById('savings').value) || 0,
         savingsUsed: 0 // Добавляем поле
     };
 
