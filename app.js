@@ -1,29 +1,44 @@
+// 1. Объект со стандартными (дефолтными) значениями для первого запуска
+const DEFAULT_SETTINGS = {
+    income: 60000,
+    rent: 25000,      // Чуть снизил, чтобы было реалистичнее для регионального города
+    utilities: 3000,
+    food: 15000,
+    transport: 1500,
+    credits: 0,       // Лучше 0 по умолчанию, не у всех есть кредиты
+    savings: 10       // 10% реалистичнее для старта, чем 20%
+};
+
 const form = document.getElementById('budget-form');
 const savingsSlider = document.getElementById('savings');
 const savingsValue = document.getElementById('savings-value');
 
-// Обновление значения слайдера
+// Обновление значения слайдера при перетаскивании
 savingsSlider.addEventListener('input', (e) => {
     savingsValue.textContent = e.target.value;
 });
 
-// Загрузка сохраненных данных
+// 2. Улучшенная загрузка данных
 function loadSettings() {
     const saved = localStorage.getItem('daylimit-settings');
-    if (saved) {
-        const data = JSON.parse(saved);
-        document.getElementById('income').value = data.income || 60000;
-        document.getElementById('rent').value = data.rent || 30000;
-        document.getElementById('utilities').value = data.utilities || 3000;
-        document.getElementById('food').value = data.food || 15000;
-        document.getElementById('transport').value = data.transport || 1500;
-        document.getElementById('credits').value = data.credits || 4000;
-        document.getElementById('savings').value = data.savings || 20;
-        savingsValue.textContent = data.savings || 20;
-    }
+
+    // Если данные есть в памяти — берем их. Если нет — берем стандартные.
+    const data = saved ? JSON.parse(saved) : DEFAULT_SETTINGS;
+
+    // Заполняем поля значениями (они гарантированно не будут пустыми)
+    document.getElementById('income').value = data.income;
+    document.getElementById('rent').value = data.rent;
+    document.getElementById('utilities').value = data.utilities;
+    document.getElementById('food').value = data.food;
+    document.getElementById('transport').value = data.transport;
+    document.getElementById('credits').value = data.credits;
+    document.getElementById('savings').value = data.savings;
+
+    // Синхронизируем текст рядом со слайдером
+    savingsValue.textContent = data.savings;
 }
 
-// Сохранение данных
+// 3. Сохранение данных (твой код отличный, оставляем как есть)
 form.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -35,12 +50,12 @@ form.addEventListener('submit', (e) => {
         transport: parseFloat(document.getElementById('transport').value) || 0,
         credits: parseFloat(document.getElementById('credits').value) || 0,
         savings: parseFloat(document.getElementById('savings').value) || 0,
-        savingsUsed: 0 // Добавляем поле
+        savingsUsed: 0 // Инициализируем долг/использование накоплений нулем
     };
 
     localStorage.setItem('daylimit-settings', JSON.stringify(settings));
     window.location.href = 'main.html';
 });
 
-// Инициализация
+// Запуск при загрузке страницы
 loadSettings();
