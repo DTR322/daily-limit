@@ -28,13 +28,13 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const settings = {
-        income: parseFloat(document.getElementById('income').value) || 0,
-        rent: parseFloat(document.getElementById('rent').value) || 0,
-        utilities: parseFloat(document.getElementById('utilities').value) || 0,
-        food: parseFloat(document.getElementById('food').value) || 0,
-        transport: parseFloat(document.getElementById('transport').value) || 0,
-        credits: parseFloat(document.getElementById('credits').value) || 0,
-        savings: parseFloat(document.getElementById('savings').value) || 0,
+        income: parseFloat(document.getElementById('income').value) || 60000,
+        rent: parseFloat(document.getElementById('rent').value) || 30000,
+        utilities: parseFloat(document.getElementById('utilities').value) || 3000,
+        food: parseFloat(document.getElementById('food').value) || 15000,
+        transport: parseFloat(document.getElementById('transport').value) || 1500,
+        credits: parseFloat(document.getElementById('credits').value) || 4000,
+        savings: parseFloat(document.getElementById('savings').value) || 15,
         savingsUsed: 0 // Добавляем поле
     };
 
